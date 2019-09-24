@@ -29,12 +29,10 @@ export default {
   methods: {
     loadVideos() {
       document.addEventListener("scroll", event => {
-        const mydiv = document.querySelector(".videos-list");
         if (
-          window.scrollY >=
-          (mydiv.offsetHeight - document.body.offsetHeight) * 0.9
+          window.scrollY + window.innerHeight >=
+          document.body.scrollHeight * 0.9
         ) {
-          console.log("pesquisar");
           if (!this.$parent.loading) {
             this.$parent.searchVideos(false);
           }

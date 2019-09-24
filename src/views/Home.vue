@@ -15,10 +15,13 @@
     <transition name="results-container">
       <div class="results" v-if="searched">
         <videos-list v-if="videos.length > 0" :videos="videos"></videos-list>
-        <div class="error" v-else>
+        <div class="error" v-if="!loading && videos.length == 0">
           <p>:(</p>
           <p>Não encontramos vídeos com o termo buscado.</p>
           <p>Utilize outras palavras-chave.</p>
+        </div>
+        <div class="loading" v-else>
+          <img src="@/assets/icons/loading.gif" alt="Loading" />
         </div>
       </div>
     </transition>
@@ -59,9 +62,25 @@ export default {
         if (clean) {
           this.videos = result.data.items;
         } else {
-          this.videos = this.videos.concat(result.data.items);
+          let partialVideos = this.videos.concat(result.data.items);
+
+          //Treat duplicated entries
+          const getUnique = arr => {
+            const unique = arr
+              .map(e => e["id"]["videoId"])
+              .map((e, i, final) => final.indexOf(e) === i && i)
+              .filter(e => arr[e])
+              .map(e => arr[e]);
+
+            return unique;
+          };
+
+          this.videos = getUnique(partialVideos);
         }
-        this.pageToken = result.data.nextPageToken;
+        this.pageToken =
+          typeof result.data.nextPageToken != "undefined"
+            ? result.data.nextPageToken
+            : null;
         console.log(this.videos);
       } catch (err) {
         console.error(err);
