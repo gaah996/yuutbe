@@ -9,7 +9,7 @@
         <h3>{{video.snippet.channelTitle}}</h3>
         <p>{{video.snippet.description}}</p>
       </div>
-      <button>Detalhes do vídeo</button>
+      <button @click="goDetails(video.id.videoId)">Detalhes do vídeo</button>
     </div>
   </div>
 </template>
@@ -36,6 +36,14 @@ export default {
           if (!this.$parent.loading) {
             this.$parent.searchVideos(false);
           }
+        }
+      });
+    },
+    goDetails(videoId) {
+      this.$router.push({
+        name: "video-details",
+        params: {
+          id: videoId
         }
       });
     }
