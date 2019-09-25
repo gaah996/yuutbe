@@ -11,7 +11,7 @@
         <button @click="play()">
           <img src="@/assets/icons/play.svg" alt="Play" />
         </button>
-        <img :src="video.snippet.thumbnails.maxres.url" alt="Thumbnail" />
+        <img :src="video.snippet.thumbnails.high.url" alt="Thumbnail" />
       </div>
       <div class="details">
         <h3>{{video.snippet.channelTitle}}</h3>
@@ -49,6 +49,7 @@ export default {
   }),
   created() {
     this.loadVideo();
+    window.scrollTo(0, 0);
   },
   methods: {
     goBack() {

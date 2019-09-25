@@ -5,7 +5,12 @@
         <img src="@/assets/logo.png" alt="Logo" />
       </div>-->
       <form @submit="searchVideos" class="search-box" :class="{searched: searched}">
-        <input type="text" placeholder="Pesquisar" v-model="query" />
+        <input
+          type="text"
+          placeholder="Pesquisar"
+          :value="query"
+          @input="e => {$store.commit('query', e.target.value)}"
+        />
         <button type="submit">
           <img src="@/assets/icons/search.svg" alt="Search" v-if="!loading" />
           <img src="@/assets/icons/loading.gif" alt="Loading" v-else />
@@ -14,7 +19,7 @@
     </header>
     <transition name="results-container">
       <div class="results" v-if="searched">
-        <videos-list v-if="videos.length > 0" :videos="videos"></videos-list>
+        <videos-list v-if="videos.length > 0"></videos-list>
         <div class="error" v-if="!loading && videos.length == 0">
           <p>:(</p>
           <p>Não encontramos vídeos com o termo buscado.</p>
@@ -31,24 +36,21 @@
 <script>
 import axios from "axios";
 import videoList from "@/components/VideoList.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "home",
   components: {
     "videos-list": videoList
   },
-  data: () => ({
-    searched: false,
-    query: "",
-    apiKey: "AIzaSyBBwc-UHHrfXRnik1wAxZ-mf-aBn9SEFwI",
-    pageToken: null,
-    videos: [],
-    loading: false
-  }),
   methods: {
     async searchVideos(clean = true) {
-      this.searched = true;
-      this.loading = true;
+      this.$store.commit("searched", true);
+      this.$store.commit("loading", true);
+      if (clean) {
+        this.$store.commit("pageToken", null);
+        window.scrollTo(0, 0);
+      }
       try {
         const result = await axios.get(
           `https://www.googleapis.com/youtube/v3/search?` +
@@ -60,7 +62,7 @@ export default {
             `${this.pageToken ? "pageToken=" + this.pageToken : ""}`
         );
         if (clean) {
-          this.videos = result.data.items;
+          this.$store.commit("videos", result.data.items);
         } else {
           let partialVideos = this.videos.concat(result.data.items);
 
@@ -75,19 +77,30 @@ export default {
             return unique;
           };
 
-          this.videos = getUnique(partialVideos);
+          this.$store.commit("videos", getUnique(partialVideos));
         }
-        this.pageToken =
+
+        this.$store.commit(
+          "pageToken",
           typeof result.data.nextPageToken != "undefined"
             ? result.data.nextPageToken
-            : null;
-        console.log(this.videos);
+            : null
+        );
       } catch (err) {
         console.error(err);
       }
-      this.loading = false;
+      this.$store.commit("loading", false);
     }
-  }
+  },
+  computed: mapState([
+    "searched",
+    "query",
+    "apiKey",
+    "pageToken",
+    "videos",
+    "loading",
+    "pageScroll"
+  ])
 };
 </script>
 

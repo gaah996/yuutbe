@@ -54,6 +54,7 @@ export default {
 .videos-list {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
 
   .video-card {
@@ -61,6 +62,7 @@ export default {
     padding: 20px;
     background: white;
     border-bottom: 1px solid #cecece;
+    background: green;
 
     &:last-child {
       border-bottom: none;
