@@ -6,7 +6,10 @@
       </div>
       <div class="info">
         <h1>{{video.snippet.title}}</h1>
-        <h3>{{video.snippet.channelTitle}}</h3>
+        <span>
+          <img src="@/assets/icons/channel.svg" alt="Channel" />
+          <h3>{{video.snippet.channelTitle}}</h3>
+        </span>
         <p>{{video.snippet.description}}</p>
       </div>
       <button @click="goDetails(video.id.videoId)">Detalhes do vídeo</button>
@@ -50,63 +53,5 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.videos-list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 100vw;
-
-  .video-card {
-    margin: 10px 0;
-    padding: 20px;
-    background: white;
-    box-shadow: 0 1px 4px #cecece;
-    border-radius: 4px;
-    width: calc(100% - 80px);
-
-    .thumbnail {
-      width: 100%;
-      height: 180px;
-      img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .info {
-      text-align: left;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-
-      h1 {
-        font-size: 26px;
-      }
-      h3 {
-        font-size: 20px;
-        font-weight: normal;
-        padding: 10px 0;
-      }
-      p {
-        font-size: 16px;
-      }
-    }
-    button {
-      background: #00ce7a;
-      border-radius: 4px;
-      margin: 20px 0 0;
-      padding: 0 20px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      box-shadow: 0 1px 4px #cecece;
-      cursor: pointer;
-      color: white;
-      font-weight: bold;
-    }
-  }
-}
+<style src="./style.scss" lang="scss" scoped>
 </style>
