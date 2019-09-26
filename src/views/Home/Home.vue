@@ -4,7 +4,7 @@
       <div class="logo" :class="{searched: searched}">
         <img src="@/assets/logo.svg" alt="Logo" />
       </div>
-      <form @submit="searchVideos" class="search-box" :class="{searched: searched}">
+      <form @submit.prevent="searchVideos" class="search-box" :class="{searched: searched}">
         <input
           type="text"
           placeholder="Pesquisar"
@@ -20,11 +20,16 @@
     <transition name="results-container">
       <div class="results" v-if="searched">
         <videos-list v-if="videos.length > 0"></videos-list>
-        <div class="error" v-if="!loading && videos.length == 0">
-          <p>:(</p>
-          <p>Não encontramos vídeos com o termo buscado.</p>
-          <p>Utilize outras palavras-chave.</p>
-        </div>
+        <error v-if="!loading && videos.length == 0">
+          <span v-if="requestError">
+            <p>Encontramos algum problema no meio do caminho.</p>
+            <p>Recarregar a página pode ajudar.</p>
+          </span>
+          <span v-else>
+            <p>Não encontramos vídeos com o termo buscado.</p>
+            <p>Utilize outras palavras-chave.</p>
+          </span>
+        </error>
         <div class="loading" v-else>
           <img src="@/assets/icons/loading.gif" alt="Loading" />
         </div>
@@ -36,17 +41,23 @@
 <script>
 import axios from "axios";
 import videoList from "@/components/VideoList/VideoList.vue";
+import error from "@/components/Error/Error.vue";
 import { mapState } from "vuex";
 
 export default {
   name: "home",
   components: {
-    "videos-list": videoList
+    "videos-list": videoList,
+    error
   },
+  data: () => ({
+    requestError: false
+  }),
   methods: {
     async searchVideos(clean = true) {
       this.$store.commit("searched", true);
       this.$store.commit("loading", true);
+      this.requestError = false;
       if (clean) {
         this.$store.commit("pageToken", null);
         window.scrollTo(0, 0);
@@ -87,7 +98,7 @@ export default {
             : null
         );
       } catch (err) {
-        console.error(err);
+        this.requestError = true;
       }
       this.$store.commit("loading", false);
     }

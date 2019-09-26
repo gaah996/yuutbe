@@ -1,0 +1,15 @@
+.error {
+  margin-top: 20px;
+
+  .sad-face {
+    margin: 20px 0;
+    display: block;
+    font-size: 70px;
+    transform: rotateZ(90deg);
+    letter-spacing: 10px;
+  }
+  p {
+    font-size: 18px;
+    line-height: 2.5;
+  }
+}

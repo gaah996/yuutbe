@@ -7,11 +7,13 @@
       <h1 v-if="video">{{video.snippet.title}}</h1>
     </header>
     <div class="video-info" v-if="video">
-      <div class="thumbnail">
-        <button @click="play()">
-          <img src="@/assets/icons/play.svg" alt="Play" />
-        </button>
-        <img :src="video.snippet.thumbnails.high.url" alt="Thumbnail" />
+      <div class="video-container">
+        <div class="thumbnail">
+          <button @click="play()">
+            <img src="@/assets/icons/play.svg" alt="Play" />
+          </button>
+          <img :src="video.snippet.thumbnails.high.url" alt="Thumbnail" />
+        </div>
       </div>
       <div class="details">
         <span class="channel">
@@ -37,21 +39,30 @@
         <p>{{video.statistics.viewCount | mask}} {{video.statistics.viewCount | viewText}}</p>
       </div>
     </div>
-    <div class="loading" v-else>
+    <div class="loading" v-if="loading">
       <img src="@/assets/icons/loading_big.gif" alt="Loading" />
       <p>Carregando vídeo...</p>
     </div>
+    <error v-if="requestError">
+      <p>Encontramos algum problema no meio do caminho.</p>
+      <p>Recarregar a página pode ajudar.</p>
+    </error>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import error from "@/components/Error/Error.vue";
 
 export default {
   name: "video-details",
+  components: {
+    error
+  },
   data: () => ({
     video: null,
-    loading: false
+    loading: false,
+    requestError: false
   }),
   created() {
     this.loadVideo();
@@ -62,6 +73,7 @@ export default {
       this.$router.go(-1);
     },
     async loadVideo() {
+      this.requestError = false;
       try {
         const result = await axios.get(
           `https://www.googleapis.com/youtube/v3/videos?` +
@@ -71,14 +83,14 @@ export default {
         );
         this.video = result.data.items[0];
       } catch (err) {
-        console.error(err);
+        this.requestError = true;
       }
     },
     play() {
       const container = document.querySelector(".thumbnail");
       container.classList.add("no-before");
       container.innerHTML = `
-      <iframe style="border:none;"id="ytplayer" type="text/html" width="${container.clientWidth}" height="${container.clientHeight}"
+      <iframe style="border:none;height:100%;width:100%;"id="ytplayer" type="text/html"
   src="http://www.youtube.com/embed/${this.video.id}?autoplay=1&frameborder="0"/>
     `;
     }
