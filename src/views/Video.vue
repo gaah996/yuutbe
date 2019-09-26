@@ -51,8 +51,7 @@ export default {
   name: "video-details",
   data: () => ({
     video: null,
-    loading: false,
-    apiKey: "AIzaSyBBwc-UHHrfXRnik1wAxZ-mf-aBn9SEFwI"
+    loading: false
   }),
   created() {
     this.loadVideo();
@@ -66,7 +65,7 @@ export default {
       try {
         const result = await axios.get(
           `https://www.googleapis.com/youtube/v3/videos?` +
-            `key=${this.apiKey}&` +
+            `key=${process.env.VUE_APP_GOOGLE_API_KEY}&` +
             `id=${this.$router.currentRoute.params.id}&` +
             `part=snippet,statistics`
         );

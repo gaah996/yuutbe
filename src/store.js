@@ -7,7 +7,6 @@ export default new Vuex.Store({
   state: {
     searched: false,
     query: "",
-    apiKey: "AIzaSyBBwc-UHHrfXRnik1wAxZ-mf-aBn9SEFwI",
     pageToken: null,
     videos: [],
     loading: false

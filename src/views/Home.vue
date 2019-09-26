@@ -54,7 +54,7 @@ export default {
       try {
         const result = await axios.get(
           `https://www.googleapis.com/youtube/v3/search?` +
-            `key=${this.apiKey}&` +
+            `key=${process.env.VUE_APP_GOOGLE_API_KEY}&` +
             `part=snippet&` +
             `maxResults=6&` +
             `q=${this.query}&` +
