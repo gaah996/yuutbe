@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <header :class="{searched: searched}">
-      <!-- <div class="logo" :class="{searched: searched}">
-        <img src="@/assets/logo.png" alt="Logo" />
-      </div>-->
+      <div class="logo" :class="{searched: searched}">
+        <img src="@/assets/logo.svg" alt="Logo" />
+      </div>
       <form @submit="searchVideos" class="search-box" :class="{searched: searched}">
         <input
           type="text"
@@ -142,26 +142,22 @@ export default {
       transform: translateY(0);
       position: fixed;
       height: 60px;
-      box-shadow: 0 3px 4px #cecece;
-      background: white;
+      background: #d81b60;
+      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
     }
 
     .logo {
       position: absolute;
       top: -100px;
       transition: all 500ms;
+      opacity: 1;
       img {
         width: auto;
         height: 70px;
       }
 
       &.searched {
-        position: relative;
-        top: 0;
-        margin: 0 20px;
-        img {
-          height: 50px;
-        }
+        opacity: 0;
       }
     }
 
@@ -174,12 +170,13 @@ export default {
       background: white;
       border: 1px solid #cecece;
       border-radius: 4px;
-      box-shadow: 0px 1px 4px #cecece;
+      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
       transition: all 800ms;
 
       &.searched {
         height: 45px;
         box-shadow: none;
+        border: none;
       }
 
       input {

@@ -56,17 +56,15 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 100vw;
 
   .video-card {
-    margin: 10px 20px;
+    margin: 10px 0;
     padding: 20px;
     background: white;
-    border-bottom: 1px solid #cecece;
-    background: green;
-
-    &:last-child {
-      border-bottom: none;
-    }
+    box-shadow: 0 1px 4px #cecece;
+    border-radius: 4px;
+    width: calc(100% - 80px);
 
     .thumbnail {
       width: 100%;
@@ -79,6 +77,9 @@ export default {
     }
     .info {
       text-align: left;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+
       h1 {
         font-size: 26px;
       }
@@ -92,7 +93,7 @@ export default {
       }
     }
     button {
-      background: #cecece;
+      background: #00ce7a;
       border-radius: 4px;
       margin: 20px 0 0;
       padding: 0 20px;
@@ -103,6 +104,8 @@ export default {
       border: none;
       box-shadow: 0 1px 4px #cecece;
       cursor: pointer;
+      color: white;
+      font-weight: bold;
     }
   }
 }

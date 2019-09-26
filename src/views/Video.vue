@@ -14,12 +14,19 @@
         <img :src="video.snippet.thumbnails.high.url" alt="Thumbnail" />
       </div>
       <div class="details">
-        <h3>{{video.snippet.channelTitle}}</h3>
+        <span class="channel">
+          <img src="@/assets/icons/channel.svg" alt />
+          <h3>{{video.snippet.channelTitle}}</h3>
+        </span>
         <div class="rating">
-          <img src="@/assets/icons/like.svg" alt="Like" />
-          <p>{{video.statistics.likeCount}}</p>
-          <img src="@/assets/icons/dislike.svg" alt="Dislike" />
-          <p>{{video.statistics.dislikeCount}}</p>
+          <span>
+            <img src="@/assets/icons/like.svg" alt="Like" />
+            <p>{{video.statistics.likeCount | mask}}</p>
+          </span>
+          <span>
+            <img src="@/assets/icons/dislike.svg" alt="Dislike" />
+            <p>{{video.statistics.dislikeCount | mask}}</p>
+          </span>
         </div>
       </div>
       <div class="description">
@@ -72,9 +79,8 @@ export default {
       const container = document.querySelector(".thumbnail");
       container.classList.add("no-before");
       container.innerHTML = `
-      <iframe id="ytplayer" type="text/html" width="${container.clientWidth}" height="${container.clientHeight}"
-  src="http://www.youtube.com/embed/${this.video.id}?autoplay=1"
-  frameborder="0"/>
+      <iframe style="border:none;"id="ytplayer" type="text/html" width="${container.clientWidth}" height="${container.clientHeight}"
+  src="http://www.youtube.com/embed/${this.video.id}?autoplay=1&frameborder="0"/>
     `;
     }
   }
@@ -89,25 +95,24 @@ export default {
   align-items: center;
   width: 100%;
   header {
-    background: white;
+    background: #d81b60;
     width: 100%;
     height: 60px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    box-shadow: 0 3px 4px #cecece;
-    margin-bottom: 20px;
-
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
+    color: white;
     button {
       margin: 0 20px;
       width: 35px;
       height: 35px;
       background: none;
-      border: 2px solid #000;
+      border: 2px solid white;
       display: flex;
       justify-content: center;
       align-items: center;
-      opacity: 0.5;
+      opacity: 0.8;
       transition: all 200ms;
       cursor: pointer;
 
@@ -125,12 +130,12 @@ export default {
   .video-info {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 40px);
+    align-items: center;
+    width: 100%;
 
     .thumbnail {
       width: 100%;
-      height: 180px;
-      margin: 20px 0;
+      height: 220px;
       position: relative;
       &::before {
         content: "";
@@ -167,37 +172,67 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 0 0 20px;
+      padding: 8px 0;
+      background: rgba(238, 238, 238, 0.8);
+      border-bottom: 1px solid #cecece;
+      width: 100%;
 
-      h3 {
-        font-size: 20px;
-        font-weight: normal;
-        padding: 10px 0;
-        margin-right: 20px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+      .channel {
+        display: flex;
+        img {
+          margin-left: 20px;
+        }
+        h3 {
+          margin-left: 5px;
+          font-size: 18px;
+          font-weight: normal;
+          padding: 10px 0;
+          margin-right: 20px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
       }
       .rating {
         display: flex;
-        img {
-          margin: 0 10px;
-          width: 20px;
-          height: 20px;
+        margin-right: 20px;
+        span {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 0 5px;
+          border-right: 1px solid #cecece;
+
+          &:last-child {
+            border-right: none;
+          }
+          img {
+            margin-bottom: 5px;
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+          }
         }
       }
     }
     .description {
-      margin-bottom: 20px;
+      padding: 20px 0;
+      width: 100%;
+      word-wrap: break-word;
+      white-space: pre-wrap;
       p {
         text-align: left;
         font-size: 16px;
+        padding: 0 20px;
       }
+      border-bottom: 1px solid #cecece;
     }
     .views {
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
+      width: 100%;
+      margin: 20px 0;
 
       img {
         margin-right: 10px;
