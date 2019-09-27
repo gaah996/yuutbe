@@ -5,12 +5,12 @@
         <img :src="video.snippet.thumbnails.high.url" alt="Thumbnail" />
       </div>
       <div class="info">
-        <h1>{{video.snippet.title}}</h1>
+        <h1>{{video.snippet.title | decode}}</h1>
         <span>
           <img src="@/assets/icons/channel.svg" alt="Channel" />
-          <h3>{{video.snippet.channelTitle}}</h3>
+          <h3>{{video.snippet.channelTitle | decode}}</h3>
         </span>
-        <p>{{video.snippet.description}}</p>
+        <p>{{video.snippet.description | decode}}</p>
       </div>
       <button @click="goDetails(video.id.videoId)">Detalhes do vídeo</button>
     </div>

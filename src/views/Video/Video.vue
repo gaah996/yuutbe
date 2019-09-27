@@ -4,7 +4,7 @@
       <button @click="goBack()">
         <img src="@/assets/icons/arrow_left.svg" alt="Back" />
       </button>
-      <h1 v-if="video">{{video.snippet.title}}</h1>
+      <h1 v-if="video">{{video.snippet.title | decode}}</h1>
     </header>
     <div class="video-info" v-if="video">
       <div class="video-container">
@@ -18,7 +18,7 @@
       <div class="details">
         <span class="channel">
           <img src="@/assets/icons/channel.svg" alt />
-          <h3>{{video.snippet.channelTitle}}</h3>
+          <h3>{{video.snippet.channelTitle | decode}}</h3>
         </span>
         <div class="rating">
           <span>
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="description">
-        <p>{{video.snippet.description}}</p>
+        <p>{{video.snippet.description | decode}}</p>
       </div>
       <div class="views">
         <img src="@/assets/icons/views.svg" alt="Views" />

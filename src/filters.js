@@ -11,3 +11,9 @@ Vue.filter("viewText", value => {
     return "visualizações";
   }
 });
+
+Vue.filter("decode", value => {
+  var txt = document.createElement("textarea");
+  txt.innerHTML = value;
+  return txt.value;
+});
