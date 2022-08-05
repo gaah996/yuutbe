@@ -6,8 +6,7 @@
 </template>
 <script>
 export default {
-  name: "error"
+  name: "error",
 };
 </script>
-<style src="./style.scss" lang="scss" scoped>
-</style>
+<style src="./style.scss" lang="scss" scoped></style>
